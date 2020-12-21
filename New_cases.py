@@ -1,17 +1,35 @@
 import requests
-import json
 from datetime import date
 import pandas as pd
 from pytrends.request import TrendReq
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 
-def build_url_covid(country_name):
+def get_countries():
+    # Get list of country, slug and 2 letter code
+    r = requests.get("https://api.covid19api.com/countries").json()
+
+    # formats list
+    dic = {ele["Country"]: [ele["Slug"], ele["ISO2"]] for ele in r}
+
+    return dic
+
+
+def show_countries():
+    # Get list of country, slug and 2 letter code
+    r = requests.get("https://api.covid19api.com/countries").json()
+
+    # formats list
+    dic = {ele["Country"]: [ele["Slug"], ele["ISO2"]] for ele in r}
+    print([x for x in dic])
+
+
+def build_url_covid(countries, country):
     # Builds url to access covid19 API
     today = date.today().strftime("%Y-%m-%d")
+    url = "https://api.covid19api.com/country/"+countries[country][0] + \
+        "/status/confirmed?2020-01-01T00:00:00Z&to="+today+"T00:00:00Z"
 
-    url = "https://api.covid19api.com/country/"+country_name + \
-        "/status/confirmed?2020-03-01T00:00:00Z&to="+today+"T00:00:00Z"
     return url
 
 
@@ -38,27 +56,50 @@ def build_df_covid(json):
     return df
 
 
-def get_trend(country_2char, date):
+def get_trend(countries, country):
+    today = date.today().strftime("%Y-%m-%d")
     pytrends = TrendReq(hl='en-US', tz=360)
     pytrends.build_payload(
-        ["covid19"], timeframe="2020-03-01 " + date, geo=country_2char)
+        ["covid19"], timeframe="2020-01-01 " + today, geo=countries[country][1])
 
     return pytrends.interest_over_time()
 
 
-r = requests.get(build_url_covid("canada"))
-api_data = r.json()
-df = build_df_covid(api_data)
-test = get_trend("CA", "2020-11-20")
-df = pd.merge(df, test, how="inner", left_on="date", right_index=True)
+def assemble_final_df(country):
+    # Assembles df with covid API data and Trend data
 
-date = df["date"]
-cases = df["cases"]
-trend = df["covid19"]
+    # Get list of country
+    countries = get_countries()
 
-fig, ax1 = plt.subplots()
-cases.plot()
-trend.plot(kind="bar")
-ax1.set_xticklabels(date)
+    # Build covid API data df
+    covid_json = requests.get(build_url_covid(countries, country)).json()
+    covid_df = build_df_covid(covid_json)
 
-plt.show()
+    # Build Trend data df
+    trend_df = get_trend(countries, country)
+
+    # Assemble final df
+    df = pd.merge(covid_df, trend_df, how="inner",
+                  left_on="date", right_index=True)
+
+    return df
+
+
+def draw_plot(country):
+    df = assemble_final_df(country)
+
+    date = df["date"]
+    cases = df["cases"]
+    trend = df["covid19"]
+
+    fig, ax1 = plt.subplots()
+    plt.xticks(date, rotation="vertical")
+    ax1.plot(date, cases)
+    ax2 = ax1.twinx()
+    ax2.bar(date, trend)
+
+    plt.savefig('.\\figures\\test.png')
+
+
+if __name__ == '__main__':
+    draw_plot("Canada")
