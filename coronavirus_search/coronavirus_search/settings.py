@@ -26,7 +26,7 @@ SECRET_KEY = 'v+bdze_ddpe+m-y0kl5ob0n(tn1rxf_v)#t*p$937q)vmb&4c4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['covid-search-correlation.herokuapp.com']
 
 
 # Application definition
