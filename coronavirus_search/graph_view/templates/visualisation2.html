@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block visualisation %}
+    <a class='active' href='{% url "graph_view-visualisation" %}'>Visualisation</a>
+{% endblock %}
+{% block content %}
+    {{ graph|safe }}
+    <div class="form">
+        <form action="visualisation2" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Visualiser">
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block home %}
+    <a class ='active' href='{% url "graph_view-home" %}'>Accueil</a>
+{% endblock %}
+{% block content %}
+    <p>L’idée derrière ce site provient d’un livre que j’ai lu il y a plusieurs années. Un des premiers porte-parole du « big data » y énumérait plusieurs possibilités potentielles offertes par la science des données. Une de ces possibilités était d’utiliser les données fournies par Google trend pour anticiper une épidémie saisonnière de grippe. Étant la situation actuelle, j’ai trouvé intéressant de voir si cette approche peut fonctionner pour une pandémie.</p>
+    <p>L’onglet visualisation permet de voir une comparaison des résultats de Google trend aux cas de Covid19 détecter pour tous les pays du monde. L’onglet à propos mène à une description des différentes librairies et API utilisés pour l’élaboration de ce projet.</p>
+{% endblock %}

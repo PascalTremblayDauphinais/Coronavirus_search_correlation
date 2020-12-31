@@ -2,17 +2,27 @@ import requests
 from datetime import date
 import pandas as pd
 from pytrends.request import TrendReq
-import matplotlib.pyplot as plt
+import plotly.graph_objs as go
+from plotly.offline import plot
+from plotly.subplots import make_subplots
 
 
 def get_countries():
-    # Get list of country, slug and 2 letter code
+    # Returns dictionary of key:country, valuer:slug,2 letter code
     r = requests.get("https://api.covid19api.com/countries").json()
 
     # formats list
     dic = {ele["Country"]: [ele["Slug"], ele["ISO2"]] for ele in r}
 
     return dic
+
+
+def sorted_countries():
+    # Returns sorted list of countries
+    lcountries = []
+    for ele in get_countries():
+        lcountries.append(ele)
+    return sorted(lcountries)
 
 
 def show_countries():
@@ -88,17 +98,34 @@ def assemble_final_df(country):
 def draw_plot(country):
     df = assemble_final_df(country)
 
-    date = df["date"]
-    cases = df["cases"]
-    trend = df["covid19"]
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
 
-    fig, ax1 = plt.subplots()
-    plt.xticks(date, rotation="vertical")
-    ax1.plot(date, cases)
-    ax2 = ax1.twinx()
-    ax2.bar(date, trend)
+    fig.add_trace(
+        go.Bar(
+            x=df['date'], y=df['covid19'],
+            name="Google Trend pour le mot \"Covid19\"",
+            opacity=0.8, marker={'color': '#457ec4'}),
+        secondary_y=True
+    )
 
-    plt.savefig('.\\figures\\test.png')
+    fig.add_trace(
+        go.Scatter(
+            x=df['date'],
+            y=df['cases'],
+            name="Cas de Covid19",
+            marker={'color': '#a80d0d'}),
+        secondary_y=False
+    )
+
+    fig.update_layout(
+        title_text=f"Correlation cas de Covid19 et recherches sur Google pour le {country}")
+    fig.update_xaxes(title_text="Date", dtick="M1", tickangle=-90)
+    fig.update_yaxes(title_text="Cas de Covid19",
+                     secondary_y=False)
+    fig.update_yaxes(
+        title_text="Google Trend", secondary_y=True)
+
+    return plot(fig, output_type='div')
 
 
 if __name__ == '__main__':

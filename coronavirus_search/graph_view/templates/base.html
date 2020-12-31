@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+        margin: 0;
+        padding: 0;
+        font-family: "Helvetica Neue",Helvetica,Arial,Roboto,sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+        
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        
+        .topnav a.active {
+            background-color: #0d2de2;
+            color: white;
+        }
+
+        .content {
+            padding-left: 2%;
+            width: 65%
+        }
+
+        .form {
+            padding-top: 20px;
+            display: block;
+            text-align: center;
+        }
+
+    </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="topnav">
+        {% block home %}
+            <a href='{% url "graph_view-home" %}'>Accueil</a>
+        {% endblock %}
+        {% block visualisation %}
+            <a href='{% url "graph_view-visualisation" %}'>Visualisation</a>
+        {% endblock %}
+        <!-- <a href="'#">Historique</a> -->
+        {% block about %}
+            <a href='{% url "graph_view-about" %}'>À propos</a>
+        {% endblock %}
+      </div>
+      <div class="content">
+          {% block content %}{% endblock %}
+      </div>
+</body>
+</html>
