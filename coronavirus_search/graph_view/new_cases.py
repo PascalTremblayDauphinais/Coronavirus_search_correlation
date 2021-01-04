@@ -105,7 +105,7 @@ def draw_plot(country):
             x=df['date'], y=df['covid19'],
             name="Google Trend pour le mot \"Covid19\"",
             opacity=0.8, marker={'color': '#457ec4'}),
-        secondary_y=True
+        secondary_y=False
     )
 
     fig.add_trace(
@@ -114,16 +114,16 @@ def draw_plot(country):
             y=df['cases'],
             name="Cas de Covid19",
             marker={'color': '#a80d0d'}),
-        secondary_y=False
+        secondary_y=True
     )
 
     fig.update_layout(
         title_text=f"Correlation cas de Covid19 et recherches sur Google pour le {country}")
     fig.update_xaxes(title_text="Date", dtick="M1", tickangle=-90)
     fig.update_yaxes(title_text="Cas de Covid19",
-                     secondary_y=False)
+                     secondary_y=True)
     fig.update_yaxes(
-        title_text="Google Trend", secondary_y=True)
+        title_text="Google Trend", secondary_y=False)
 
     return plot(fig, output_type='div')
 
