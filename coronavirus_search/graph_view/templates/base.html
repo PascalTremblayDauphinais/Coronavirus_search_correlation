@@ -53,16 +53,18 @@
         {% block home %}
             <a href='{% url "graph_view-home" %}'>Accueil</a>
         {% endblock %}
+        {% block about %}
+        <a href='{% url "graph_view-about" %}'>À propos</a>
+        {% endblock %}
         {% block visualisation %}
             <a href='{% url "graph_view-visualisation" %}'>Visualisation</a>
         {% endblock %}
-        <!-- <a href="'#">Historique</a> -->
-        {% block about %}
-            <a href='{% url "graph_view-about" %}'>À propos</a>
+        {% block avenir %}
+            <a href='{% url "graph_view-avenir" %}'>À venir</a>
         {% endblock %}
-      </div>
-      <div class="content">
+    </div>
+    <div class="content">
           {% block content %}{% endblock %}
-      </div>
+    </div>
 </body>
 </html>

@@ -1,9 +1,8 @@
 {% extends "base.html" %}
-
 {% block about %}
     <a class='active' href='{% url "graph_view-about" %}'>À propos</a>
 {% endblock %}
 {% block content %}
-    <p>Les données utilisées sur ce site proviennent de Google trend et de Coronavirus COVID19 API. Google trend renvoi des données normalisées de recherche sur le moteur Google. Ces données sont normalisées pour une période donnée pour une région du monde. Coronavirus COVID19 API renvoi, entre autres, les cas de COVID19 pour une période donnée pour une région du monde.</p>
+    <p>Les données utilisées sur ce site proviennent de Google trend et de Coronavirus COVID19 API. Google Trend renvoit des données normalisées de recherche sur le moteur Google. Ces données sont normalisées pour une période donnée et une région du monde. Coronavirus COVID19 API renvoit, entre autres, les cas de COVID19 pour une période donnée et une région du monde.</p>
     <p>Ce projet a été principalement écrit en Python. La librairie <a href="https://pypi.org/project/pytrends/" target='_blank'>pytrends</a> a été utilisée pour accéder aux données de Google Trend. Le site a été construit en utilisant le framework <a href="https://www.djangoproject.com/" target='_blank'>Django</a>. Les graphiques ont été tracés avec la librairie <a href="https://plotly.com/python/" target='_blank'>Plotly</a> </p>
 {% endblock %}

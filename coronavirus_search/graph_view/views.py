@@ -23,3 +23,7 @@ def visualisation2(request):
     context = {'graph': draw_plot(country), 'form': form}
 
     return render(request, 'visualisation2.html', context)
+
+
+def avenir(request):
+    return render(request, 'avenir.html')
