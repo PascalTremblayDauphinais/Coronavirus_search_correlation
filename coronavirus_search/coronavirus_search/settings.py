@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'coronavirus-search-correlation.herokuapp.com',
+    '127.0.0.1',
     'localhost',
 ]
 
