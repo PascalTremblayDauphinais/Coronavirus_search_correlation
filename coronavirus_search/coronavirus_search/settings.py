@@ -27,7 +27,7 @@ SECRET_KEY = 'v+bdze_ddpe+m-y0kl5ob0n(tn1rxf_v)#t*p$937q)vmb&4c4'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'coronavirus-search-correlation.herokuapp.com',
+    'coronavirus-search-correlation.onrender.com',
     '127.0.0.1',
     'localhost',
 ]
